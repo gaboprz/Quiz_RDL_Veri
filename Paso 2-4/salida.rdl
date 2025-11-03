@@ -1,0 +1,204 @@
+addrmap APB_REGS {
+    name = "APB_REGS";
+    desc = "REGS accessible through the APB interface";
+
+    // Registro CTRL
+    reg {
+        name = "CTRL";
+        desc = "Control Register";
+        regwidth = 32;
+
+        field {
+            name = "SIZE";
+            desc = "Size, in bytes, of the aligned data";
+            sw = rw;
+            hw = r;
+        } SIZE[2:0] = 3'b001;
+
+        field {
+            name = "reserved1";
+            desc = "Reserved field";
+            sw = r;
+            hw = r;
+        } reserved1[7:3] = 5'b00000;
+
+        field {
+            name = "OFFSET";
+            desc = "Offset, in bytes, of the aligned data";
+            sw = rw;
+            hw = r;
+        } OFFSET[9:8] = 2'b00;
+
+        field {
+            name = "reserved2";
+            desc = "Reserved field";
+            sw = r;
+            hw = r;
+        } reserved2[15:10] = 6'b000000;
+
+        field {
+            name = "CLR";
+            desc = "Clear the status counter (CNT_DROP) when writing 1.";
+            sw = w;
+            hw = r;
+        } CLR[16:16] = 1'b0;
+
+        field {
+            name = "reserved3";
+            desc = "Reserved field";
+            sw = r;
+            hw = r;
+        } reserved3[31:17] = 15'b000000000000000;
+
+    } CTRL @ 0x0000;
+
+    // Registro STATUS
+    reg {
+        name = "STATUS";
+        desc = "Status Register";
+        regwidth = 32;
+
+        field {
+            name = "CNT_DROP";
+            desc = "Number of unaligned accesses, which are dropped.";
+            sw = r;
+            hw = r;
+        } CNT_DROP[7:0] = 8'b00000000;
+
+        field {
+            name = "RX_LVL";
+            desc = "Fill level of the RX FIFO";
+            sw = r;
+            hw = r;
+        } RX_LVL[11:8] = 4'b0000;
+
+        field {
+            name = "reserved4";
+            desc = "Reserved field";
+            sw = r;
+            hw = r;
+        } reserved4[15:12] = 4'b0000;
+
+        field {
+            name = "TX_LVL";
+            desc = "Fill level of the TX FIFO.";
+            sw = r;
+            hw = r;
+        } TX_LVL[19:16] = 4'b0000;
+
+        field {
+            name = "reserved5";
+            desc = "Reserved field";
+            sw = r;
+            hw = r;
+        } reserved5[31:20] = 12'b000000000000;
+
+    } STATUS @ 0x000C;
+
+    // Registro IRQ_EN
+    reg {
+        name = "IRQ_EN";
+        desc = "Interrupt Requests Enable Register";
+        regwidth = 32;
+
+        field {
+            name = "RX_FIFO_EMPTY";
+            desc = "Enable IRQ.RX_FIFO_EMPTY in the irq output.";
+            sw = rw;
+            hw = r;
+        } RX_FIFO_EMPTY[0:0] = 1'b0;
+
+        field {
+            name = "RX_FIFO_FULL";
+            desc = "Enable IRQ.RX_FIFO_FULL in the irq output.";
+            sw = rw;
+            hw = r;
+        } RX_FIFO_FULL[1:1] = 1'b0;
+
+        field {
+            name = "TX_FIFO_EMPTY";
+            desc = "Enable IRQ.TX_FIFO_EMPTY in the irq output.";
+            sw = rw;
+            hw = r;
+        } TX_FIFO_EMPTY[2:2] = 1'b0;
+
+        field {
+            name = "TX_FIFO_FULL";
+            desc = "Enable IRQ.TX_FIFO_FULL in the irq output.";
+            sw = rw;
+            hw = r;
+        } TX_FIFO_FULL[3:3] = 1'b0;
+
+        field {
+            name = "MAX_DROP";
+            desc = "Enable IRQ.MAX_DROP in the irq output.";
+            sw = rw;
+            hw = r;
+        } MAX_DROP[4:4] = 1'b0;
+
+        field {
+            name = "reserved6";
+            desc = "Reserved field";
+            sw = r;
+            hw = r;
+        } reserved6[31:5] = 27'b000000000000000000000000000;
+
+    } IRQ_EN @ 0x00F0;
+
+    // Registro IRQ
+    reg {
+        name = "IRQ";
+        desc = "Interrupt Requests Register";
+        regwidth = 32;
+
+        field {
+            name = "RX_FIFO_EMPTY";
+            desc = "RX FIFO became empty (sticky)";
+            sw = w;
+            hw = r;
+            onwrite = woclr;
+        } RX_FIFO_EMPTY[0:0] = 1'b0;
+
+        field {
+            name = "RX_FIFO_FULL";
+            desc = "RX FIFO became full (sticky)";
+            sw = w;
+            hw = r;
+            onwrite = woclr;
+        } RX_FIFO_FULL[1:1] = 1'b0;
+
+        field {
+            name = "TX_FIFO_EMPTY";
+            desc = "TX FIFO became empty (sticky)";
+            sw = w;
+            hw = r;
+            onwrite = woclr;
+        } TX_FIFO_EMPTY[2:2] = 1'b0;
+
+        field {
+            name = "TX_FIFO_FULL";
+            desc = "TX FIFO became full (sticky).";
+            sw = w;
+            hw = r;
+            onwrite = woclr;
+        } TX_FIFO_FULL[3:3] = 1'b0;
+
+        field {
+            name = "MAX_DROP";
+            desc = "STATUS.CNT_DROP reached its maximum value";
+            sw = w;
+            hw = r;
+            onwrite = woclr;
+        } MAX_DROP[4:4] = 1'b0;
+
+        field {
+            name = "reserved7";
+            desc = "Reserved field";
+            sw = r;
+            hw = r;
+        } reserved7[31:5] = 27'b000000000000000000000000000;
+
+    } IRQ @ 0x00F4;
+
+};
+
