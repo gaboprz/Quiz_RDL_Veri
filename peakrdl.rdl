@@ -1,0 +1,198 @@
+addrmap MI_PERIFERICO {
+    name = "Mi Periférico";
+    desc = "Mapa de memoria del periférico";
+    
+    // Registro CTRL
+    reg {
+        name = "Control Register";
+        desc = "Registro de control";
+        
+        field {
+            name = "SIZE";
+            desc = "Campo de tamaño";
+            sw = rw;
+            hw = r;
+        } SIZE[2:0] = 3'b000;
+
+        field {
+            name = "RESERVED1";
+            desc = "Reservado";
+            sw = r;
+            hw = r;
+        } RESERVED1[7:3] = 5'b00000;
+
+        field {
+            name = "OFFSET";
+            desc = "Campo de offset";
+            sw = rw;
+            hw = r;
+        } OFFSET[9:8] = 2'b00;
+
+        field {
+            name = "RESERVED2";
+            desc = "Reservado";
+            sw = r;
+            hw = r;
+        } RESERVED2[15:10] = 6'b000000;
+
+        field {
+            name = "CLR";
+            desc = "Clear";
+            sw = w;
+            hw = r;
+        } CLR[16:16] = 1'b0;
+
+        field {
+            name = "RESERVED3";
+            desc = "Reservado";
+            sw = r;
+            hw = r;
+        } RESERVED3[31:17] = 15'b000000000000000;
+        
+    } CTRL @ 0x0000;
+
+    // Registro STATUS
+    reg {
+        name = "Status Register";
+        desc = "Registro de estado";
+        
+        field {
+            name = "CNT_DROP";
+            desc = "Contador de drops";
+            sw = r;
+            hw = r;
+        } CNT_DROP[7:0] = 8'b00000000;
+
+        field {
+            name = "RX_LVL";
+            desc = "Nivel RX";
+            sw = r;
+            hw = r;
+        } RX_LVL[11:8] = 4'b0000;
+
+        field {
+            name = "RESERVED1";
+            desc = "Reservado";
+            sw = r;
+            hw = r;
+        } RESERVED1[15:12] = 4'b0000;
+
+        field {
+            name = "TX_LVL";
+            desc = "Nivel TX";
+            sw = r;
+            hw = r;
+        } TX_LVL[19:16] = 4'b0000;
+
+        field {
+            name = "RESERVED2";
+            desc = "Reservado";
+            sw = r;
+            hw = r;
+        } RESERVED2[31:20] = 12'b000000000000;
+        
+    } STATUS @ 0x000C;
+
+    // Registro IRQEN
+    reg {
+        name = "Interrupt Enable Register";
+        desc = "Registro de habilitación de interrupciones";
+        
+        field {
+            name = "RX_FIFO_EMPTY";
+            desc = "Enable RX FIFO empty interrupt";
+            sw = rw;
+            hw = r;
+        } RX_FIFO_EMPTY[0:0] = 1'b0;
+
+        field {
+            name = "RX_FIFO_FULL";
+            desc = "Enable RX FIFO full interrupt";
+            sw = rw;
+            hw = r;
+        } RX_FIFO_FULL[1:1] = 1'b0;
+
+        field {
+            name = "TX_FIFO_EMPTY";
+            desc = "Enable TX FIFO empty interrupt";
+            sw = rw;
+            hw = r;
+        } TX_FIFO_EMPTY[2:2] = 1'b0;
+
+        field {
+            name = "TX_FIFO_FULL";
+            desc = "Enable TX FIFO full interrupt";
+            sw = rw;
+            hw = r;
+        } TX_FIFO_FULL[3:3] = 1'b0;
+
+        field {
+            name = "MAX_DROP";
+            desc = "Enable max drop interrupt";
+            sw = rw;
+            hw = r;
+        } MAX_DROP[4:4] = 1'b0;
+
+        field {
+            name = "RESERVED";
+            desc = "Reservado";
+            sw = r;
+            hw = r;
+        } RESERVED[31:5] = 27'b000000000000000000000000000;
+        
+    } IRQEN @ 0x00F0;
+
+    // Registro IRQ
+    reg {
+        name = "Interrupt Register";
+        desc = "Registro de interrupciones";
+        
+        field {
+            name = "RX_FIFO_EMPTY";
+            desc = "RX FIFO empty interrupt";
+            sw = w;
+            hw = r;
+            onwrite = woclr;
+        } RX_FIFO_EMPTY[0:0] = 1'b0;
+
+        field {
+            name = "RX_FIFO_FULL";
+            desc = "RX FIFO full interrupt";
+            sw = w;
+            hw = r;
+            onwrite = woclr;
+        } RX_FIFO_FULL[1:1] = 1'b0;
+
+        field {
+            name = "TX_FIFO_EMPTY";
+            desc = "TX FIFO empty interrupt";
+            sw = w;
+            hw = r;
+            onwrite = woclr;
+        } TX_FIFO_EMPTY[2:2] = 1'b0;
+
+        field {
+            name = "TX_FIFO_FULL";
+            desc = "TX FIFO full interrupt";
+            sw = w;
+            hw = r;
+            onwrite = woclr;
+        } TX_FIFO_FULL[3:3] = 1'b0;
+
+        field {
+            name = "MAX_DROP";
+            desc = "Max drop interrupt";
+            sw = w;
+            hw = r;
+            onwrite = woclr;
+        } MAX_DROP[4:4] = 1'b0;
+
+        field {
+            name = "RESERVED";
+            desc = "Reservado";
+            sw = r;
+            hw = r;
+        } RESERVED[31:5] = 27'b000000000000000000000000000;
+        
+    } IRQ @ 0x00F4;
+};
